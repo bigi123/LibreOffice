@@ -35,7 +35,8 @@
 
 #if defined(__linux) || defined(__OpenBSD__) || \
     defined(__FreeBSD__) || defined(__NetBSD__) || \
-    defined(__DragonFly__) || defined(__FreeBSD_kernel__)
+    defined(__DragonFly__) || defined(__FreeBSD_kernel__) || \
+    defined(__HAIKU__)
 #include <sys/param.h>
 #if __BYTE_ORDER == __LITTLE_ENDIAN
 #undef CORE_BIG_ENDIAN

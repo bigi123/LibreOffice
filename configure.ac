@@ -641,6 +641,23 @@ freebsd*)
     PTHREAD_LIBS="-pthread -lpthread"
     _os=NetBSD
     ;;
+    
+haiku*)
+	test_cups=no
+    test_dbus=no
+    test_randr=no
+    test_xrender=no
+    test_freetype=no
+    test_fontconfig=no
+    enable_java=no
+    enable_opengl=no
+    enable_odk=no
+    enable_gconf=no
+    enable_gnome_vfs=no
+    test_gtk=no
+    enable_database_connectivity=no
+    _os=Haiku
+    ;;
 
 aix*)
     test_randr=no
@@ -4173,6 +4190,19 @@ dragonfly*)
         ;;
     esac
     ;;
+    
+haiku*)
+	COM=GCC
+	GUIBASE=haiku
+	RTL_OS=Haiku
+	OS=HAIKU
+	P_SEP=:
+	
+	CPUNAME=INTEL
+	RTL_ARCH=x86
+	PLATFORMID=haiku_x86
+	OUTPATH=haiku
+	;;
 
 freebsd*)
     COM=GCC
@@ -9163,7 +9193,7 @@ dnl ***************************************
 dnl testing for X libraries and includes...
 dnl ***************************************
 WANT_X11="no"
-if test $_os != Darwin -a $_os != WINNT -a $_os != Android -a $_os != iOS -a "$enable_headless" != "yes"; then
+if test $_os != Haiku -a $_os != Darwin -a $_os != WINNT -a $_os != Android -a $_os != iOS -a "$enable_headless" != "yes"; then
     WANT_X11="yes"
     AC_DEFINE(HAVE_FEATURE_X11)
 fi
