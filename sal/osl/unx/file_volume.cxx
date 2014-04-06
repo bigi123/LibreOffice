@@ -178,6 +178,21 @@ oslFileError osl_getVolumeInformation( rtl_uString* ustrDirectoryURL, oslVolumeI
 #   define __OSL_STATFS_IS_CASE_PRESERVING_FS(a)    (strcmp((a).f_fstypename, "msdos") != 0)
 #endif /* NETBSD */
 
+#if defined(HAIKU)
+
+#include <sys/param.h>
+
+#   define __OSL_STATFS_STRUCT              struct statvfs
+#   define __OSL_STATFS(dir, sfs)           statvfs((dir), (sfs))
+#   define __OSL_STATFS_ISREMOTE(a)         (((a).f_flag & ST_LOCAL) == 0)
+
+#   define __OSL_STATFS_BLKSIZ(a)           ((sal_uInt64)((a).f_bsize))
+#   define __OSL_STATFS_TYPENAME(a)         ((a).f_fstypename)
+
+#   define __OSL_STATFS_IS_CASE_SENSITIVE_FS(a) (strcmp((a).f_fstypename, "msdos") != 0 && strcmp((a).f_fstypename, "ntfs") != 0 && strcmp((a).f_fstypename, "smbfs") != 0)
+#   define __OSL_STATFS_IS_CASE_PRESERVING_FS(a)    (strcmp((a).f_fstypename, "msdos") != 0)
+#endif /* HAIKU */
+
 #if defined(LINUX)
 #   define __OSL_NFS_SUPER_MAGIC                 0x6969
 #   define __OSL_SMB_SUPER_MAGIC                 0x517B

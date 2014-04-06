@@ -35,8 +35,7 @@
 
 #if defined(__linux) || defined(__OpenBSD__) || \
     defined(__FreeBSD__) || defined(__NetBSD__) || \
-    defined(__DragonFly__) || defined(__FreeBSD_kernel__) || \
-    defined(__HAIKU__)
+    defined(__DragonFly__) || defined(__FreeBSD_kernel__)
 #include <sys/param.h>
 #if __BYTE_ORDER == __LITTLE_ENDIAN
 #undef CORE_BIG_ENDIAN
@@ -48,6 +47,19 @@
 #endif /* __BYTE_ORDER == __BIG_ENDIAN */
 #endif /* !(__BYTE_ORDER == __LITTLE_ENDIAN) */
 #endif /* Def __linux || Def *BSD */
+
+#ifdef HAIKU
+#include <endian.h>
+#if BYTE_ORDER == LITTLE_ENDIAN
+#undef CORE_BIG_ENDIAN
+#define CORE_LITTLE_ENDIAN
+#else /* !(BYTE_ORDER == LITTLE_ENDIAN) */
+#if BYTE_ORDER == BIG_ENDIAN
+#define CORE_BIG_ENDIAN
+#undef CORE_LITTLE_ENDIAN
+#endif /* BYTE_ORDER == BIG_ENDIAN */
+#endif /* !(BYTE_ORDER == LITTLE_ENDIAN) */
+#endif
 
 #ifdef __sun
 #ifdef __sparc

@@ -206,9 +206,11 @@ oslFileError oslTranslateFileError(sal_Bool bIsError, int Errno)
             break;
 #endif /* MACOSX */
 
+#if !(defined(HAIKU))
         case EUSERS:
             osl_error = osl_File_E_USERS;
             break;
+#endif
 
         case EOVERFLOW:
             osl_error = osl_File_E_OVERFLOW;

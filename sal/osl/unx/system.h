@@ -288,12 +288,43 @@ int macxp_resolveAlias(char *path, int buflen);
 #   define  NO_PTHREAD_RTL
 #endif
 
+#ifdef HAIKU
+#   include <shadow.h>
+#   include <pthread.h>
+#   include <sys/file.h>
+#   include <sys/ioctl.h>
+#   include <sys/uio.h>
+#   include <sys/un.h>
+#   include <netinet/tcp.h>
+#   include <dlfcn.h>
+#   include <endian.h>
+#   include <sys/time.h>
+#   if BYTE_ORDER == LITTLE_ENDIAN
+#       define _LITTLE_ENDIAN
+#   elif BYTE_ORDER == BIG_ENDIAN
+#       ifndef _BIG_ENDIAN
+#           define _BIG_ENDIAN
+#       endif
+#   endif
+#   define  IORESOURCE_TRANSFER_BSD
+/*#   define  IOCHANNEL_TRANSFER_BSD_RENO*/
+#   define  pthread_testcancel()
+#   define  NO_PTHREAD_PRIORITY
+#   define  PTHREAD_SIGACTION           pthread_sigaction
+
+#   ifndef ETIME
+#       define ETIME ETIMEDOUT
+#   endif
+
+#endif
+
 #if !defined(_WIN32)  && \
     !defined(LINUX)   && !defined(NETBSD) && !defined(FREEBSD) && \
     !defined(AIX)     && \
     !defined(SOLARIS) && !defined(MACOSX) && \
     !defined(OPENBSD) && !defined(DRAGONFLY) && \
-    !defined(IOS) && !defined(ANDROID)
+    !defined(IOS) && !defined(ANDROID) && \
+    !defined(HAIKU)
 #   error "Target platform not specified!"
 #endif
 

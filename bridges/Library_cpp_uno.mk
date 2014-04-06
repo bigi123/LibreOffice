@@ -54,7 +54,7 @@ bridge_noopt_objects := cpp2uno uno2cpp
 
 else ifeq ($(CPUNAME),INTEL)
 
-ifneq ($(filter ANDROID DRAGONFLY FREEBSD LINUX NETBSD OPENBSD,$(OS)),)
+ifneq ($(filter ANDROID DRAGONFLY FREEBSD LINUX NETBSD OPENBSD HAIKU,$(OS)),)
 bridges_SELECTED_BRIDGE := gcc3_linux_intel
 bridge_asm_objects := call
 bridge_exception_objects := cpp2uno except uno2cpp

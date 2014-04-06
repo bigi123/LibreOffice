@@ -132,6 +132,20 @@ extern "C" {
 #   endif
 #endif
 
+#ifdef HAIKU
+#   include <endian.h>
+#   if BYTE_ORDER == LITTLE_ENDIAN
+#       ifndef _LITTLE_ENDIAN
+#       define _LITTLE_ENDIAN
+#       endif
+#   elif BYTE_ORDER == BIG_ENDIAN
+#       ifndef _BIG_ENDIAN
+#       define _BIG_ENDIAN
+#       endif
+#   endif
+#endif
+
+
 /** Check supported platform.
  */
 #if !defined(_WIN32)  && \
@@ -139,7 +153,8 @@ extern "C" {
     !defined(AIX)     && !defined(OPENBSD) && \
     !defined(SOLARIS) && !defined(MACOSX) && !defined(FREEBSD) && \
     !defined(DRAGONFLY) && \
-    !defined(IOS)     && !defined(ANDROID)
+    !defined(IOS)     && !defined(ANDROID) && \
+    !defined(HAIKU)
 #   error "Target platform not specified !"
 #endif
 
