@@ -641,7 +641,7 @@ freebsd*)
     PTHREAD_LIBS="-pthread -lpthread"
     _os=NetBSD
     ;;
-    
+
 haiku*)
 	test_cups=no
     test_dbus=no
@@ -654,6 +654,10 @@ haiku*)
     enable_odk=no
     enable_gconf=no
     enable_gnome_vfs=no
+	enable_gstreamer=no
+	enable_vlc=no
+	enable_harfbuzz=no
+	enable_graphite=no
     test_gtk=no
     enable_database_connectivity=no
     _os=Haiku
@@ -4190,14 +4194,14 @@ dragonfly*)
         ;;
     esac
     ;;
-    
+
 haiku*)
 	COM=GCC
 	GUIBASE=haiku
 	RTL_OS=Haiku
 	OS=HAIKU
 	P_SEP=:
-	
+
 	CPUNAME=INTEL
 	RTL_ARCH=x86
 	PLATFORMID=haiku_x86

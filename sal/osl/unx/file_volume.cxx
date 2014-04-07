@@ -69,6 +69,12 @@
 #include <sys/mount.h>
 #define HAVE_STATFS_H
 
+#elif defined(HAIKU)
+
+#include <sys/param.h>
+#include <sys/statvfs.h>
+#define HAVE_STATFS_H
+
 #endif /* HAVE_STATFS_H */
 
 /************************************************************************
@@ -182,15 +188,18 @@ oslFileError osl_getVolumeInformation( rtl_uString* ustrDirectoryURL, oslVolumeI
 
 #include <sys/param.h>
 
-#   define __OSL_STATFS_STRUCT              struct statvfs
-#   define __OSL_STATFS(dir, sfs)           statvfs((dir), (sfs))
-#   define __OSL_STATFS_ISREMOTE(a)         (((a).f_flag & ST_LOCAL) == 0)
-
-#   define __OSL_STATFS_BLKSIZ(a)           ((sal_uInt64)((a).f_bsize))
-#   define __OSL_STATFS_TYPENAME(a)         ((a).f_fstypename)
-
-#   define __OSL_STATFS_IS_CASE_SENSITIVE_FS(a) (strcmp((a).f_fstypename, "msdos") != 0 && strcmp((a).f_fstypename, "ntfs") != 0 && strcmp((a).f_fstypename, "smbfs") != 0)
-#   define __OSL_STATFS_IS_CASE_PRESERVING_FS(a)    (strcmp((a).f_fstypename, "msdos") != 0)
+#   define __OSL_NFS_SUPER_MAGIC                 0x6969
+#   define __OSL_SMB_SUPER_MAGIC                 0x517B
+#   define __OSL_MSDOS_SUPER_MAGIC               0x4d44
+#   define __OSL_NTFS_SUPER_MAGIC                0x5346544e
+#   define __OSL_STATFS_STRUCT                   struct statvfs
+#   define __OSL_STATFS(dir, sfs)                statvfs((dir), (sfs))
+#   define __OSL_STATFS_BLKSIZ(a)                ((sal_uInt64)((a).f_bsize))
+#   define __OSL_STATFS_IS_NFS(a)                (__OSL_NFS_SUPER_MAGIC == (a).f_fsid)
+#   define __OSL_STATFS_IS_SMB(a)                (__OSL_SMB_SUPER_MAGIC == (a).f_fsid)
+#   define __OSL_STATFS_ISREMOTE(a)              (__OSL_STATFS_IS_NFS((a)) || __OSL_STATFS_IS_SMB((a)))
+#   define __OSL_STATFS_IS_CASE_SENSITIVE_FS(a)  ((__OSL_MSDOS_SUPER_MAGIC != (a).f_fsid) && (__OSL_NTFS_SUPER_MAGIC != (a).f_fsid))
+#   define __OSL_STATFS_IS_CASE_PRESERVING_FS(a) ((__OSL_MSDOS_SUPER_MAGIC != (a).f_fsid))
 #endif /* HAIKU */
 
 #if defined(LINUX)
